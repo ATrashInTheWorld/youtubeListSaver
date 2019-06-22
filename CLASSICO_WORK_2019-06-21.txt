@@ -1,0 +1,6 @@
+Playlist: -> CLASSICO_WORK
+
+ PO. Title -> OriginateChanel  %> Duration  $> videoID 
+
+1. Tchaikovsky - Marche Slave -> TheWickedNorth %> PT9M26S $> 5poSw7tFLB4
+2. Tartini Violin Sonata in G minor ''Devil's Trill Sonata'' -> La Stravaganza %> PT16M31S $> z7rxl5KsPjs

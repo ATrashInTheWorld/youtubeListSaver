@@ -70,7 +70,7 @@ def retrieveVideosFromPL(plID, file):
     for videoP in videosIDs:
 	position = videoP
 	videoID = videosIDs[position]
-	#print("VID -> "+videoID)
+
 	#API to retrieve videos infos
 	request = youtube.videos().list(
         	part="snippet,contentDetails",
@@ -78,13 +78,18 @@ def retrieveVideosFromPL(plID, file):
     	)
 	response = request.execute()
 
-	title = response["snippet"]
-	# ok print a bunch of stuff like only snippet and items AND itmes/snippet
-	channel = response["items"]["snippet"]["channelTitle"]
-	duration = response["items"]["contentDetails"]["duration"]
+	title = response["items"][0]["snippet"]["title"]
+	#print title.encode('utf-32').decode('utf-32')
+	channel = response["items"][0]["snippet"]["channelTitle"]
+	#print channel
+	duration = response["items"][0]["contentDetails"]["duration"]
+	#print duration
 
-	file.write(str(position)+". "+title+" -> "+channel+" %> "+duration+" \#> "+videoID)
+	line = (str(position)+". "+title.encode('utf-8').decode('utf-8')+" -> "+channel.encode('utf-8').decode('utf-8')+" %> "+duration+" #> "+videoID+"\n") 
+	print(line)
+	file.write(line.encode("utf-8"))
 
+    print "COPY DONE!!"
 
 #Retrieves from my LIKED PL
 #https://developers.google.com/youtube/v3/docs/videos/list?refresh=1
@@ -160,7 +165,7 @@ def main():
 
 		# create the empty file
 		file = open(filePath+"/"+fileName, 'a')
-		file.write(availableListsDico.keys()[sel-1]+"\n PO. Title -> OriginateChanel  %> Duration  \#> videoID ")
+		file.write("Playlist: -> "+availableListsDico.keys()[sel-1]+"\n\n PO. Title -> OriginateChanel  %> Duration  #> videoID \n\n")
 
 		# copies the playlist in the file with the infos
 		retrieveVideosFromPL(availableListsDico.values()[sel-1], file)
