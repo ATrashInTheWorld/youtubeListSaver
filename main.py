@@ -45,17 +45,41 @@ def checkIfFPandFexists(filePath, fileName):
 	#If everyting OK
    return filePath
 
+# token part
+def nextPageTokens(*args):
+    response = ""
+    if(len(args)==1):
+	request = youtube.playlistItems().list(
+	        part="snippet,contentDetails",
+	        maxResults=50,
+	        playlistId= args[0]
+	)
+	response = request.execute()
+    elif(len(args)==2):
+	request = youtube.playlistItems().list(
+	        part="snippet,contentDetails",
+	        maxResults=50,
+	        playlistId= args[0],
+		pageToken= args[1]
+	)
+	response = request.execute()
+    return response
+
 #retrieve Videos Id from the requested PL
 def getVideosID(plID):
-    request = youtube.playlistItems().list(
-        part="snippet,contentDetails",
-        maxResults=50,
-        playlistId= plID
-    )
-    response = request.execute()
+    nextP = True
     videosIDArr = {}
-    for videosID in response["items"]:
-	videosIDArr[videosID["snippet"]["position"]+1] = videosID["contentDetails"]["videoId"]
+    
+    response = nextPageTokens(plID)
+    while nextP == True:
+    	for videosID in response["items"]:
+		videosIDArr[videosID["snippet"]["position"]+1] = videosID["contentDetails"]["videoId"]
+
+	if("nextPageToken" in response):
+		response = nextPageTokens(plID, response["nextPageToken"])
+	else:
+		nextP = False
+
 
     sortedVideosIDArr = {}
     for k in sorted(videosIDArr.keys()):
@@ -78,16 +102,16 @@ def retrieveVideosFromPL(plID, file):
     	)
 	response = request.execute()
 
-	title = response["items"][0]["snippet"]["title"]
+	if(response["items"] is not None):
+		title = response["items"][0]["snippet"]["title"]
 	#print title.encode('utf-32').decode('utf-32')
-	channel = response["items"][0]["snippet"]["channelTitle"]
+		channel = response["items"][0]["snippet"]["channelTitle"]
 	#print channel
-	duration = response["items"][0]["contentDetails"]["duration"]
+		duration = response["items"][0]["contentDetails"]["duration"]
 	#print duration
-
-	line = (str(position)+". "+title.encode('utf-8').decode('utf-8')+" -> "+channel.encode('utf-8').decode('utf-8')+" %> "+duration+" #> "+videoID+"\n") 
-	print(line)
-	file.write(line.encode("utf-8"))
+		line = (str(position)+". "+title.encode('utf-8').decode('utf-8')+" -> "+channel.encode('utf-8').decode('utf-8')+" %> "+duration+" #> "+videoID+"\n") 
+		print(line)
+		file.write(line.encode("utf-8"))
 
     print "COPY DONE!!"
 
