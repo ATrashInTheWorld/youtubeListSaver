@@ -45,7 +45,25 @@ def checkIfFPandFexists(filePath, fileName):
 	#If everyting OK
    return filePath
 
-# token part
+# make the duration string more readable
+def transformDuration(duration):
+    dur = ""
+    tempDur = duration.strip('PT')
+    for ind, char in enumerate(tempDur[:-1]):
+	if(char==tempDur[-1]):
+		dur = dur + ""
+	elif(char.isalpha()):
+		dur = dur+":"
+	else:
+		if(tempDur[ind-1].isalpha() and tempDur[ind+1].isalpha()):
+			dur = dur + "0"+char
+		else:
+			dur = dur+char
+    if(len(dur)==2):
+	dur = dur+":00"
+    return dur
+
+# Page token part
 def nextPageTokens(*args):
     response = ""
     if(len(args)==1):
@@ -109,7 +127,7 @@ def retrieveVideosFromPL(plID, file):
 	#print channel
 		duration = response["items"][0]["contentDetails"]["duration"]
 	#print duration
-		line = (str(position)+". "+title.encode('utf-8').decode('utf-8')+" -> "+channel.encode('utf-8').decode('utf-8')+" %> "+duration+" #> "+videoID+"\n") 
+		line = (str(position)+". "+title.encode('utf-8').decode('utf-8')+" -> "+channel.encode('utf-8').decode('utf-8')+" %> "+transformDuration(duration)+" #> "+videoID+"\n") 
 		print(line)
 		file.write(line.encode("utf-8"))
 
