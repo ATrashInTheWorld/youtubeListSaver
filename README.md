@@ -40,4 +40,5 @@ To becoming:
  -> Ensure no crash happens on an unavailable video.
  -> Give the choice to print each line or not
  
- 
+ Feel free to leave a message for any reason. 
+ Also, feel free to use the code as you please.
