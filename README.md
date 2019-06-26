@@ -17,11 +17,16 @@ How to install:
 
 
 How to use:
-1. Once the set up is done and you try to run the main.py file, a huge link will be displaying. Below, you will have to enter a    code. Don't worry, it is only google confirming that you want to use your API. Therefore:
+1. Once the set up is done and you try to run the main.py file, a huge link will be displaying. Below, you will have to enter    a code. Don't worry, it is only google confirming that you want to use your API. Therefore:
+
     1.1 Enter your Google account credentials.
+    
     1.2 It might then redirect you to a page saying that your API is not secure. Don't worry, click on "Advance" (below the           message) and then click on "Go to ... (unsafe)".
+    
     1.3 Allow everything.
+    
     1.4 Once done copy the code given by Google and paste it in the terminal.
+    
 2. Once you entered the code, below should appear all your playlists, select the number of the wanted one.
 3. Enter a name for the file (without the txt extension) and press enter, or just press enter to let the default one
 4. Enter the path where you want to save the file (full path: C://User/user1... or /home/user1/...) or just press enter to      save it in the created "BK" directory/folder.
@@ -29,9 +34,11 @@ How to use:
 6. Once done, select another list to save or press -1 to exit.
 
 
+
 Potential problem:
 
 If you ever encounter a problem such as "IndexError: list index out of range", it would mean that a video has been deleted or set to private. Either way, you can no longer access. For now, just delete all the unavailable videos from the playlists and it should avoid a crash. I am currently working on the issue.
+
 
 
 To becoming:
@@ -47,6 +54,8 @@ To becoming:
  -> Ensure no crash happens on an unavailable video.
  
  -> Give the choice to print each line or not
+ 
+ 
  
  
  Feel free to leave a message for any reason. 
