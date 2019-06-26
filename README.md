@@ -2,6 +2,7 @@ Youtube Playlists saver
 
 
 Purpose:
+
 The purpose of this application is to save your youtube playlist in a .txt file. It was mainly created in order to have a backup of our saved videos in case youtube decides to set them private or delete them.
 
 
@@ -29,16 +30,25 @@ How to use:
 
 
 Potential problem:
+
 If you ever encounter a problem such as "IndexError: list index out of range", it would mean that a video has been deleted or set to private. Either way, you can no longer access. For now, just delete all the unavailable videos from the playlists and it should avoid a crash. I am currently working on the issue.
 
 
 To becoming:
+
  -> Ensure that the user is connected to the internet
+ 
  -> Get information about the playlist selected
+ 
  -> Allow to rename the file or change the directory of the file already exists in the selected directory
+ 
  -> Note which videos are deleted/set private and no longer available
+ 
  -> Ensure no crash happens on an unavailable video.
+ 
  -> Give the choice to print each line or not
  
+ 
  Feel free to leave a message for any reason. 
+ 
  Also, feel free to use the code as you please.
