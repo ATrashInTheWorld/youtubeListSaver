@@ -10,12 +10,24 @@
 
 import os
 from datetime import date
+import urllib2
 
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
 
 scopes = ["https://www.googleapis.com/auth/youtube"]
+
+#check if the user connected to internet
+def connection():
+    try:
+	import requests
+	res = requests.get('https://www.google.com')
+	return True
+    except:
+	print "You need to be connected to internet in order to use the application"
+	import sys
+	sys.exit()
 
 #Check if Filename is not empty
 def checkIfFileNameIsEmpty(fileName, defaultFN):
@@ -138,6 +150,9 @@ def retrieveVideosFromPL(plID, file):
 #def retrieveFromLiked():
 
 def main():
+
+    connection()
+
     # Disable OAuthlib's HTTPS verification when running locally.
     # *DO NOT* leave this option enabled in production.
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
