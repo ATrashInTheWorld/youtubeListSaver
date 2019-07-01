@@ -25,13 +25,13 @@ def connection():
 	res = requests.get('https://www.google.com')
 	return True
     except:
-	print "You need to be connected to internet in order to use the application"
+	print ("You need to be connected to internet in order to use the application")
 	import sys
 	sys.exit()
 
 #Check if Filename is not empty
 def checkIfFileNameIsEmpty(fileName, defaultFN):
-    if(fileName == ""):
+    if not fileName:
 	return defaultFN
     else:
 	return fileName+".txt"
@@ -42,7 +42,7 @@ def checkIfFPandFexists(filePath, fileName):
    fileOK = False
 
 	#Path
-   if(filePath==""):
+   if not filePath:
 	filePath = "./BK"
 
    elif(os.path.isdir(filePath) == False):
@@ -50,9 +50,8 @@ def checkIfFPandFexists(filePath, fileName):
 		filePath = raw_input("Path Not valid, please enter a valid Path -> ")
 
 	# check If file does not already in the selected directory
-   if(os.path.isfile(str(filePath+"/"+fileName)) == True):
-	while os.path.isfile(str(filePath+"/"+fileName)) == True:
-		filePath = raw_input("A file with the same name already exists in the selected directory! \n Plese enter another path -> ")
+	 	while os.path.isfile(str(filePath+"/"+fileName)) == True:
+			filePath = raw_input("A file with the same name already exists in the selected directory! \n Plese enter another path -> ")
 
 	#If everyting OK
    return filePath
@@ -63,16 +62,16 @@ def transformDuration(duration):
     tempDur = duration.strip('PT')
     for ind, char in enumerate(tempDur[:-1]):
 	if(char==tempDur[-1]):
-		dur = dur + ""
+		dur += ""
 	elif(char.isalpha()):
-		dur = dur+":"
+		dur += ":"
 	else:
 		if(tempDur[ind-1].isalpha() and tempDur[ind+1].isalpha()):
-			dur = dur + "0"+char
+			dur += "0"+char
 		else:
-			dur = dur+char
+			dur += char
     if(len(dur)==2):
-	dur = dur+":00"
+	dur += ":00"
     return dur
 
 # Page token part
@@ -119,6 +118,9 @@ def getVideosID(plID):
 
 #Retrieve Vidoes Infos from MY OWN created plylist
 def retrieveVideosFromPL(plID, file):
+    printEachLine = raw_input("Do want to print each line while the copy is in progress? \n I yes, press 'y', any other string will be considere as a no ->  ")
+    print "Sure a moment please"
+
     videosIDs = getVideosID(plID)
     #allInfosPerVi = {}
     for videoP in videosIDs:
@@ -140,7 +142,8 @@ def retrieveVideosFromPL(plID, file):
 		duration = response["items"][0]["contentDetails"]["duration"]
 	#print duration
 		line = (str(position)+". "+title.encode('utf-8').decode('utf-8')+" -> "+channel.encode('utf-8').decode('utf-8')+" %> "+transformDuration(duration)+" #> "+videoID+"\n") 
-		print(line)
+		if printEachLine=="y":
+			print(line)
 		file.write(line.encode("utf-8"))
 
     print "COPY DONE!!"
@@ -176,7 +179,7 @@ def main():
 	#API receiving lists 
     request = youtube.playlists().list(
         part="snippet",
-        maxResults=25,
+        maxResults=50,
 	mine=True
     )
     response = request.execute()
@@ -216,9 +219,6 @@ def main():
 		
 		#file Path
 		filePath = checkIfFPandFexists(raw_input("Please enter a path to save the file with no '/' at the end \n (DEFAULT: ./BK) -> "), fileName)
-
-		# Real Deal, not i does the core of the idea
-		print "Sure, a moment please ..."
 
 		# create the empty file
 		file = open(filePath+"/"+fileName, 'a')
