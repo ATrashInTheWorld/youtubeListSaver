@@ -122,7 +122,8 @@ def retrieveVideosFromPL(plID, file):
     print "Sure a moment please"
 
     videosIDs = getVideosID(plID)
-    unavailableVideos = []
+    unavailableVideos = {}
+
     for videoP in videosIDs:
 	position = videoP
 	videoID = videosIDs[position]
@@ -147,11 +148,11 @@ def retrieveVideosFromPL(plID, file):
 		file.write(line.encode("utf-8"))
 
 	except:
-		unavailableVideos.append(videoID)
+		unavailableVideos[position] = videoID
 
     file.write("\n\n The following videos IDs were not available \n")
-    for vid in unavailableVideos:
-	file.write("-> "+ vid.encode("utf-8").decode("utf-8")+"\n")
+    for p, i in unavailableVideos.items():
+	file.write(str(p)+". "+i.encode("utf-8").decode("utf-8")+"\n")
     print "COPY DONE!!"
 
 #Retrieves from my LIKED PL
